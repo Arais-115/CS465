@@ -19,6 +19,7 @@
   "devDependencies": {
     "hbs": "^4.2.0",
     "mongoose": "^5.9.1",
-    "seedgoose": "^2.0.2"
+    "seedgoose": "^2.0.2",
+    "webpack": "^5.89.0"
   }
 }
