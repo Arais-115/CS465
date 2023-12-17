@@ -20,13 +20,13 @@ export class EditTripComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // retrieve stashed tripId
     let tripCode = localStorage.getItem("tripCode");
     if (!tripCode) {
       alert("Something wrong, couldn't find where I stashed tripCode!");
       this.router.navigate(['']);
       return;
     }
+
     console.log('EditTripComponent#onInit found tripCode ' + tripCode);
 
     // initialize form
@@ -41,7 +41,9 @@ export class EditTripComponent implements OnInit {
       image: ['', Validators.required],
       description: ['', Validators.required],
     })
+
     console.log('EditTripComponent#onInit calling TripDataService#getTrip(\'' + tripCode + '\')');
+
     this.tripService.getTrip(tripCode)
       .then(data => {
         console.log(data);
@@ -60,4 +62,6 @@ export class EditTripComponent implements OnInit {
       });
     }
   }
+
+  get f() { return this.editForm.controls; }
 }

@@ -1,8 +1,33 @@
 const mongoose = require('mongoose');
-const Model = mongoose.model('trips');
+const Trip = mongoose.model('trips');
+const User = mongoose.model('users');
+
+const getUser = (req, res, callback) => {
+    if (req.payload && req.payload.email) {            
+      User
+        .findOne({ email : req.payload.email })         
+        .exec((err, user) => {
+          if (!user) {
+            return res
+              .status(404)
+              .json({"message": "User not found"});
+          } else if (err) {
+            console.log(err);
+            return res
+              .status(404)
+              .json(err);
+           }
+          callback(req, res, user.name);                
+        });
+    } else {
+      return res
+        .status(404)
+        .json({"message": "User not found"});
+    }
+};
 
 const tripsList = async (req, res) => {
-    Model
+    Trip
         .find({})
         .exec((err, trips) => {
         if (!trips) {
@@ -23,7 +48,7 @@ const tripsList = async (req, res) => {
 };
 
 const tripsFindCode = async (req, res) => {
-    Model
+    Trip
         .find({ 'code': req.params.tripCode })
         .exec((err, trips) => {
         if (!trips) {
@@ -44,7 +69,9 @@ const tripsFindCode = async (req, res) => {
 };
 
 const tripsAddTrip = async (req, res) => {
-    model
+    getUser(req, res, 
+        (req, res) => {
+          Trip
     .create({
         code: req.body.code,
         name: req.body.name,
@@ -64,13 +91,17 @@ const tripsAddTrip = async (req, res) => {
             return res
                 .status(201)
                 .json(trip);
-        }
-    });
+            }
+        });
+  }
+);
 }
 
 const tripsUpdateTrip = async (req, res) => {
     console.log(req.body);
-    model
+    getUser(req, res,
+        (req, res) => {
+    Trip
         .findOneAndUpdate({'code': req.params.tripCode}, {
             code: req.body.code,
             name: req.body.name,
@@ -101,7 +132,9 @@ const tripsUpdateTrip = async (req, res) => {
             return res
                 .status(500)
                 .json(err);
-        });
+            });
+        }
+    );
 }
 
 module.exports = {

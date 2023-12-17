@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
+const dbURI = 'mongodb://localhost:27017/travlr';
 const readLine = require('readline');
 
-let dbURL = 'mongodb://127.0.0.1/travlr'
 if (process.env.NODE_ENV === 'production') {
-  dbURL = process.env.DB_HOST || process.env.MONGODB_URI;
+  dbURI = process.env.MONGODB_URI;
 }
 
 const connect = () => {
   setTimeout(() =>
-      mongoose.connect(dbURL, {
+      mongoose.connect(dbURI, {
           useNewUrlParser: true,
           useCreateIndex: true,
           useUnifiedTopology: true
@@ -66,4 +66,5 @@ process.on('SIGTERM', () => {
 
 connect();
 
-require('./travlr');
+require('./models/travlr');
+require('./models/user');
