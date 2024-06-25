@@ -1,6 +1,8 @@
 # CS465
 CS-465 Full Stack Development with MEAN
 
+Through the application of cloud-based development principles and best practices, utilized frameworks to build cloud architecture upon which software stack applications run.
+
 Architecture
 
 Compare and contrast the types of Frontend development you used in your full stack project, including Express HTML, JavaScript, and the single-page application (SPA).
